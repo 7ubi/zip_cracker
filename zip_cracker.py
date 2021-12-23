@@ -2,7 +2,6 @@ import sys
 import zipfile
 from tqdm import tqdm
 
-# https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt
 passwordlist = ''
 zip_file = sys.argv[1]
 
@@ -34,7 +33,7 @@ else:
 
     for i in range(password_max_length):
         indices = [0 for x in range(i + 1)]
-        print(i + 1)
+        
         while indices[0] < len(possible) - 1:
             # create password
             password = ""
