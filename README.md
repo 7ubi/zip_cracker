@@ -4,6 +4,10 @@
 
 A tool to get the password of a password-protected zip file.
 
+## Disclaimer
+
+This project was made for educational purposes only! 
+
 ## Install requirements
 
 1. Navigate to the projects' location in the console.
