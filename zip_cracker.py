@@ -14,32 +14,33 @@ else:
 if len(sys.argv) > 2:
     passwordlist = sys.argv[2]
 
-
 try:
     zip_file = zipfile.ZipFile(zip_file)
 except FileNotFoundError:
     print("ERROR: ZIP FILE DOES NOT EXIST")
 
 
-def bruteForce(possible, password_max_length):
+def bruteForce(possible, password_max_length, title):
+    print(title)
+
     password_possibilities = pow(len(possible), password_max_length)
     password_tested = 0
 
     for i in range(password_max_length):
         indices = [0 for x in range(i + 1)]
 
-        while indices[0] < len(possible) - 1:
+        while indices[0] < len(possible):
             # create password
             password = ""
             for j in range(len(indices)):
                 password += possible[indices[j]]
 
             indices[len(indices) - 1] += 1
-
+            #print(password)
             if len(indices) > 1:
-                if indices[len(indices) - 1] == len(possible) - 1:
+                if indices[len(indices) - 1] == len(possible):
                     for j in range(len(indices) - 1, 0, -1):
-                        if indices[j] == len(possible) - 1:
+                        if indices[j] == len(possible):
                             indices[j] = 0
                             if j != 0:
                                 indices[j - 1] += 1
@@ -47,8 +48,8 @@ def bruteForce(possible, password_max_length):
                             break
 
             password_tested += 1
-            percentage = round(password_tested / password_possibilities * 100) / 100
-            sys.stdout.write(f"\rpasswords tested: {password_tested} / {password_possibilities} - {percentage}%")
+            # percentage = round(password_tested / password_possibilities * 10000) / 100
+            sys.stdout.write(f"\rpasswords tested: {password_tested}") # / {password_possibilities} - {percentage}%")
             sys.stdout.flush()
 
             try:
@@ -81,9 +82,17 @@ if passwordlist != '':
                 exit(0)
 else:
     # Possible symbols in password
-    lowercase_letters = 'abcdefghijklmnopqrstuvwxyz'  # ![]{}()%&*$#^<>~@|'
+    lowercase_letters = 'abcdefghijklmnopqrstuvwxyz'
     uppercase_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     numbers = '0123456789'
-    password_max_length = 10
+    # other = '![]{}()%&*$#^<>~@|'
+    password_max_length = 4
 
-    bruteForce(numbers, password_max_length)
+    bruteForce(numbers, password_max_length, "Checking for passwords with only numbers")
+    bruteForce(lowercase_letters, password_max_length, "\nChecking for passwords with only lowercase letters")
+    bruteForce(uppercase_letters, password_max_length, "\nChecking for passwords with only uppercase letters")
+    bruteForce(lowercase_letters + uppercase_letters, password_max_length, "\nChecking for passwords with uppercase "
+                                                                           "letters and lowercase letters")
+    bruteForce(lowercase_letters + numbers + uppercase_letters, password_max_length, "\nChecking for passwords with "
+                                                                                     "uppercase letters, numbers and"
+                                                                                     " lowercase letters")
