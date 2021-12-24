@@ -30,6 +30,7 @@ else:
     possible = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'#![]{}()%&*$#^<>~@|'
     password_max_length = 4
     password_possibilities = pow(len(possible), password_max_length)
+    password_tested = 0
 
     for i in range(password_max_length):
         indices = [0 for x in range(i + 1)]
@@ -51,6 +52,11 @@ else:
                                 indices[j - 1] += 1
                         else:
                             break
+
+            password_tested += 1
+            percentage = round(password_tested / password_possibilities * 100) / 100
+            sys.stdout.write(f"\rpasswords tested: {password_tested} / {password_possibilities} - {percentage}%")
+            sys.stdout.flush()
 
             try:
                 zip_file.extractall(pwd=str.encode(password))
